@@ -1,0 +1,60 @@
+openapi: "3.0.2"
+info:
+  description: OpenAPI implementation of family tree.
+  version: "1.0.0"
+  title: "Family Tree"
+  contact:
+    name: Github
+    url: https://github.com/nmichale/be-coding-challenge
+servers:
+  - url: "/api"
+
+
+paths:
+  /example:
+    get:
+      tags:
+        - "Example"
+      summary: "Example route"
+      operationId: "family_tree.api.example"
+      parameters:
+        - $ref: '#/components/parameters/parameter'
+      responses:
+        200:
+          $ref: '#/components/responses/success'
+
+components:
+  parameters:
+    parameter:
+      description: Example
+      name: parameter
+      in: query
+      required: false
+      schema:
+        type: string
+
+  responses:
+    success:
+      description: Succesful resonse
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/response_array'
+        text/csv:
+          schema:
+            $ref: '#/components/schemas/response_array'
+
+  schemas:
+    response_array:
+      type: array
+      items:
+        $ref: '#/components/schemas/response'
+    response:
+      description: Response.
+      type: object
+      properties:
+        success:
+          type: boolean
+        message:
+          type: string
+
