@@ -1,0 +1,13 @@
+diff --git a/dist/index.html b/dist/index.html
+index 0de47c6..535c9dd 100644
+--- a/dist/index.html
++++ b/dist/index.html
+@@ -74,7 +74,7 @@ window.onload = function() {
+   
+   // Build a system
+   const ui = SwaggerUIBundle({
+-    url: "http://petstore.swagger.io/v2/swagger.json",
++url: "{{ api_url }}",
+     dom_id: '#swagger-ui',
+     deepLinking: true,
+     presets: [
