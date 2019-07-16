@@ -1,5 +1,4 @@
 import click
-import bjoern
 
 from family_tree.app import create_app
 

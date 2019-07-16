@@ -34,7 +34,6 @@ def create_app():
     app.add_api('api.yaml')
     cors.init_app(app.app)
     app.app.register_blueprint(ui_bp)
-    app.app.register_blueprint(health_check.blueprint)
 
     return app
 

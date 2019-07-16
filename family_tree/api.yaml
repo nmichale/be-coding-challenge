@@ -11,31 +11,47 @@ servers:
 
 
 paths:
-  /example:
+  /person/add/:
+    post:
+      tags:
+        - "Person"
+      summary: "Add people to family tree with JSON objects"
+      operationId: "family_tree.api.person_add"
+      requestBody:
+        description: People to add to family tree.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/people'
+      responses:
+        200:
+          $ref: '#/components/responses/success'
+  /person/connection/siblings/:
     get:
       tags:
-        - "Example"
-      summary: "Example route"
-      operationId: "family_tree.api.example"
+        - "Person"
+      summary: Get all siblings of person.
+      operationId: "family_tree.api.person_siblings"
       parameters:
-        - $ref: '#/components/parameters/parameter'
+        - $ref: '#/components/parameters/person_id'
       responses:
         200:
           $ref: '#/components/responses/success'
 
 components:
   parameters:
-    parameter:
-      description: Example
-      name: parameter
+    person_id:
+      description: Id returned when posting a person.
+      name: person_id
       in: query
-      required: false
+      required: true
       schema:
-        type: string
+        $ref: '#/components/schemas/id'
 
   responses:
     success:
-      description: Succesful resonse
+      description: Successful resonse
       content:
         application/json:
           schema:
@@ -45,6 +61,47 @@ components:
             $ref: '#/components/schemas/response_array'
 
   schemas:
+    people:
+      type: array
+      items:
+        $ref: '#/components/schemas/person'
+    person:
+      type: object
+      properties:
+        first_name:
+          $ref: '#/components/schemas/first_name'
+        last_name:
+          $ref: '#/components/schemas/last_name'
+        phone_number:
+          $ref: '#/components/schemas/phone_number'
+        email_address:
+          $ref: '#/components/schemas/email_address'
+        address:
+          $ref: '#/components/schemas/address'
+        birth_date:
+          $ref: '#/components/schemas/birth_date'
+        parent_ids:
+          $ref: '#/components/schemas/parent_ids'
+    first_name:
+      type: string
+    last_name:
+      type: string
+    phone_number:
+      type: string
+    email_address:
+      type: string
+    address:
+      type: string
+    birth_date:
+      type: string
+      format: date
+    parent_ids:
+      type: array
+      items:
+        $ref: '#/components/schemas/id'
+    id:
+      type: number
+      format: integer
     response_array:
       type: array
       items:
