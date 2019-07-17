@@ -52,6 +52,29 @@ paths:
       responses:
         200:
           $ref: '#/components/responses/people'
+  /person/connection/modify/:
+    post:
+      tags:
+        - "Connections"
+      summary: Add a parental connection edge
+      operationId: "family_tree.api.add_parents"
+      parameters:
+        - $ref: '#/components/parameters/person_id'
+        - $ref: '#/components/parameters/parent_ids'
+      responses:
+        200:
+          $ref: '#/components/responses/parents'
+    delete:
+      tags:
+        - "Connections"
+      summary: Remove a parental connection edge
+      operationId: "family_tree.api.remove_parents"
+      parameters:
+        - $ref: '#/components/parameters/person_id'
+        - $ref: '#/components/parameters/parent_ids'
+      responses:
+        200:
+          $ref: '#/components/responses/parents'
   /person/connection/children/:
     get:
       tags:
@@ -142,6 +165,13 @@ components:
       required: true
       schema:
         type: string
+    parent_ids:
+      description: Ids of parents.
+      name: parent_ids
+      in: query
+      required: true
+      schema:
+        $ref: '#/components/schemas/parent_ids'
 
   responses:
     person_ids:
@@ -158,6 +188,12 @@ components:
             $ref: '#/components/schemas/person'
     people:
       description: Array of JSON objects representing people.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/people'
+    parents:
+      description: Parents of person used.
       content:
         application/json:
           schema:

@@ -110,14 +110,26 @@ def person_cousins(person_id):
     '''
     return family.get_cousins(person_id), SUCCESS_CODE
 
-def modify_connection(person_id, edge_from, edge_to):
+def add_parents(person_id, parent_ids):
     '''
-    This would be the function that modifies the directed edges which specificy parental and child relationships
+    This would function adds extra parent edges.
 
     :param person_id:
-    :param edge_from:
-    :param edge_to:
+    :param parent_ids:
     :return:
     '''
 
-    raise NotImplementedError
+    family.add_parents(person_id, parent_ids)
+    return family.get_parents(person_id), SUCCESS_CODE
+
+def remove_parents(person_id, parent_ids):
+    '''
+    This function removes parent edges
+
+    :param person_id:
+    :param parent_ids:
+    :return:
+    '''
+
+    family.remove_parents(person_id, parent_ids)
+    return family.get_parents(person_id), SUCCESS_CODE

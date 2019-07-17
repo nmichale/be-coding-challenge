@@ -3,7 +3,7 @@ import pandas as pd
 
 class FamilyTree(object):
 
-    def __init__(self, edgelist=None):
+    def __init__(self):
         self._dg = nx.DiGraph()
 
     def clear(self):
@@ -29,7 +29,7 @@ class FamilyTree(object):
 
             # Find symmetric difference. This is what I would use to do CRUD on relational db.
             df = diff.unstack().to_frame()
-            df.index = df.index.rename(['edge_to', 'edge_from'])
+            df.index = df.index.rename(['child', 'parent'])
             df.columns = ['diff']
             df = df[df['diff'] != 0]
             df['changed'] = df['diff'].map(lambda x: 'Added' if x > 0 else 'Removed')
@@ -59,6 +59,17 @@ class FamilyTree(object):
         :return:
         '''
         self._dg.add_edges_from([(i, person_id) for i in parent_ids])
+
+    @_changes_to_db
+    def remove_parents(self, person_id, parent_ids):
+        '''
+        Add parents.
+
+        :param person_id:
+        :param parent_ids:
+        :return:
+        '''
+        self._dg.remove_edges_from([(i, person_id) for i in parent_ids])
 
     def get_people(self, node_ids):
         '''

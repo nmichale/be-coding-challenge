@@ -167,3 +167,15 @@ class FamilyTreeTests(unittest.TestCase):
         ids, resp_code = api.person_add(copy.deepcopy(self.family1))
         r, resp_code = api.person_get('first_name', 'Jeffrey')
         self.assertTrue(ids[1] in [p['id'] for p in r])
+
+    def test_add_parents(self):
+        api.reset_environment()
+        ids, resp_code = api.person_add(copy.deepcopy(self.family1))
+        r, resp_code = api.add_parents(ids[2], [ids[3]])
+        self.assertTrue(ids[3] in [p['id'] for p in r])
+
+    def test_remove_parents(self):
+        api.reset_environment()
+        ids, resp_code = api.person_add(copy.deepcopy(self.family1))
+        r, resp_code = api.remove_parents(ids[2], [ids[0]])
+        self.assertTrue(ids[0] not in [p['id'] for p in r])
