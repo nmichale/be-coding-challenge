@@ -3,6 +3,7 @@ from contextlib import contextmanager
 
 from . import config
 
+
 class FakeConnection(object):
     '''
     Fake connection object that just prints whatever sql is executed. SQLAlchemy would handle any extra
@@ -26,7 +27,9 @@ class FakeConnection(object):
             self.last_id += 1
             return self.last_id
 
+
 fake_conn = FakeConnection()
+
 
 @contextmanager
 def get_conn():

@@ -3,6 +3,12 @@ import yaml
 import collections
 
 def yaml_to_json(fn):
+    '''
+    Convert yaml file to json object for Swagger UI usage.
+
+    :param fn:
+    :return: JSON
+    '''
     # Setup support for ordered dicts so we do not lose ordering
     # when importing from YAML
     _mapping_tag = yaml.resolver.BaseResolver.DEFAULT_MAPPING_TAG

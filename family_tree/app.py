@@ -7,9 +7,15 @@ from . import config
 
 ui_bp = flask.Blueprint('ui', __name__)
 
+
 @ui_bp.route('/swagger_ui')
 @ui_bp.route('/swagger_ui/')
 def serve_swagger_ui_index():
+    '''
+    Swagger UI to graphically call API.
+
+    :return:
+    '''
     return flask.render_template('swagger_ui.html', api_url=flask.request.url_root + 'swagger_ui.json')
 
 
@@ -17,15 +23,19 @@ def serve_swagger_ui_index():
 def serve_swagger_ui_static_files(filename):
     return flask.send_from_directory('static', filename)
 
+
 @ui_bp.route('/swagger_ui.json')
 def serve_swagger_ui_json():
     return utils.yaml_to_json(config.wd + '/' + config.SPEC_FN)
+
 
 @ui_bp.route('/health_check', methods=['GET'])
 def health_check():
     return flask.jsonify(True)
 
+
 cors = flask_cors.CORS()
+
 
 def create_app():
     app = connexion.FlaskApp(__name__)

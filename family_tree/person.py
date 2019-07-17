@@ -19,9 +19,18 @@ class Person(object):
             self._insert_db()
 
     def to_dict(self):
+        '''
+
+        :return: Dictionary representing all attributes of object.
+        '''
         return {k[1:]:v for k, v in self.__dict__.items()}
 
     def _insert_db(self):
+        '''
+        Initially insert person to relational database
+
+        :return:
+        '''
         to_insert = self.to_dict()
         to_insert.pop('id')
 
@@ -41,6 +50,12 @@ class Person(object):
         self._id = id
 
     def _update_db(self, key):
+        '''
+        Update database based on attribute in setter function that calls this.
+
+        :param key:
+        :return:
+        '''
         if self._id is None:
             return
 

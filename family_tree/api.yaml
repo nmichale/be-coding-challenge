@@ -23,42 +23,145 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/people'
+              $ref: '#/components/schemas/people_parents'
       responses:
         200:
-          $ref: '#/components/responses/success'
-  /person/connection/siblings/:
+          $ref: '#/components/responses/person_ids'
+  /person/modify/{attribute}/:
+    post:
+      tags:
+        - "Person"
+      summary: "Modify a chosen attribute for the person with the id."
+      operationId: "family_tree.api.modify_person"
+      parameters:
+        - $ref: '#/components/parameters/person_id'
+        - $ref: '#/components/parameters/attribute'
+        - $ref: '#/components/parameters/value'
+      responses:
+        200:
+          $ref: '#/components/responses/person'
+  /person/query/{attribute}/:
     get:
       tags:
         - "Person"
-      summary: Get all siblings of person.
+      summary: "Query family tree for anybody with the given attribute value."
+      operationId: "family_tree.api.person_get"
+      parameters:
+        - $ref: '#/components/parameters/attribute'
+        - $ref: '#/components/parameters/value'
+      responses:
+        200:
+          $ref: '#/components/responses/people'
+  /person/connection/children/:
+    get:
+      tags:
+        - "Connections"
+      summary: Get all children of a person.
+      operationId: "family_tree.api.person_children"
+      parameters:
+        - $ref: '#/components/parameters/person_id'
+      responses:
+        200:
+          $ref: '#/components/responses/people'
+  /person/connection/parents/:
+    get:
+      tags:
+        - "Connections"
+      summary: Get all parents of a person.
+      operationId: "family_tree.api.person_parents"
+      parameters:
+        - $ref: '#/components/parameters/person_id'
+      responses:
+        200:
+          $ref: '#/components/responses/people'
+  /person/connection/siblings/:
+    get:
+      tags:
+        - "Connections"
+      summary: Get all siblings of a person.
       operationId: "family_tree.api.person_siblings"
       parameters:
         - $ref: '#/components/parameters/person_id'
       responses:
         200:
-          $ref: '#/components/responses/success'
+          $ref: '#/components/responses/people'
+  /person/connection/grandparents/:
+    get:
+      tags:
+        - "Connections"
+      summary: Get all grandparents of a person.
+      operationId: "family_tree.api.person_grandparents"
+      parameters:
+        - $ref: '#/components/parameters/person_id'
+      responses:
+        200:
+          $ref: '#/components/responses/people'
+  /person/connection/parent_siblings/:
+    get:
+      tags:
+        - "Connections"
+      summary: Get all parent_siblings (aunts and uncles) of a person.
+      operationId: "family_tree.api.person_parent_siblings"
+      parameters:
+        - $ref: '#/components/parameters/person_id'
+      responses:
+        200:
+          $ref: '#/components/responses/people'
+  /person/connection/cousins/:
+    get:
+      tags:
+        - "Connections"
+      summary: Get all cousins of a person.
+      operationId: "family_tree.api.person_cousins"
+      parameters:
+        - $ref: '#/components/parameters/person_id'
+      responses:
+        200:
+          $ref: '#/components/responses/people'
 
 components:
   parameters:
     person_id:
-      description: Id returned when posting a person.
+      description: Id associated with a person (returned when submitting a person).
       name: person_id
       in: query
       required: true
       schema:
         $ref: '#/components/schemas/id'
+    value:
+      description: Value of an attribute of a person.
+      name: value
+      in: query
+      required: true
+      schema:
+        type: string
+    attribute:
+      description: Attribute of a person.
+      name: attribute
+      in: path
+      required: true
+      schema:
+        type: string
 
   responses:
-    success:
-      description: Successful resonse
+    person_ids:
+      description: Array of person ids.
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/response_array'
-        text/csv:
+            $ref: '#/components/schemas/ids'
+    person:
+      description: JSON object of a person.
+      content:
+        application/json:
           schema:
-            $ref: '#/components/schemas/response_array'
+            $ref: '#/components/schemas/person'
+    people:
+      description: Array of JSON objects representing people.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/people'
 
   schemas:
     people:
@@ -66,6 +169,25 @@ components:
       items:
         $ref: '#/components/schemas/person'
     person:
+      type: object
+      properties:
+        first_name:
+          $ref: '#/components/schemas/first_name'
+        last_name:
+          $ref: '#/components/schemas/last_name'
+        phone_number:
+          $ref: '#/components/schemas/phone_number'
+        email_address:
+          $ref: '#/components/schemas/email_address'
+        address:
+          $ref: '#/components/schemas/address'
+        birth_date:
+          $ref: '#/components/schemas/birth_date'
+    people_parents:
+      type: array
+      items:
+        $ref: '#/components/schemas/person_parents'
+    person_parents:
       type: object
       properties:
         first_name:
@@ -102,10 +224,10 @@ components:
     id:
       type: number
       format: integer
-    response_array:
+    ids:
       type: array
       items:
-        $ref: '#/components/schemas/response'
+        $ref: '#/components/schemas/id'
     response:
       description: Response.
       type: object
@@ -114,4 +236,3 @@ components:
           type: boolean
         message:
           type: string
-
