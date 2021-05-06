@@ -1,7 +1,7 @@
 connexion[swagger-ui]==2.3.0
 Flask==1.1.1
 Click==7.0
-Flask-Cors==3.0.8
+Flask-Cors==3.0.9
 phonenumbers==8.10.14
 networkx==2.3
 numpy==1.16.4
