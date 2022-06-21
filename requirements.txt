@@ -4,6 +4,6 @@ Click==7.0
 Flask-Cors==3.0.8
 phonenumbers==8.10.14
 networkx==2.3
-numpy==1.16.4
+numpy==1.22.0
 pandas==0.24.2
 python-dateutil==1.12.0
